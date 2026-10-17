@@ -1,0 +1,88 @@
+
+/* pra criar variavel  */
+:root {
+    --verde-escuro: #50977791;
+    --verde-claro: #eaf2ec;
+    --texto: #202923;
+    --foco: #b8d8a8;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body.corpo {
+    position: relative;
+    isolation: isolate;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: var(--texto);
+    background: #edfff0;
+}
+
+body.corpo::before {
+    position: fixed;
+    z-index: -1;
+    inset: 0;
+    background: url("pavudos.png") center / min(460px, 460px) no-repeat;
+    content: "";
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.nav {
+    padding: 12px 24px;
+    background: var(--verde-escuro);
+}
+
+.logo {
+    display: block;
+    width: 64px;
+    height: auto;
+}
+
+.nav2 {
+    background: var(--verde-claro);
+    border-bottom: 1px solid #d5e2d8;
+}
+
+.nav2 ul {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 8px 16px;
+    list-style: none;
+}
+
+.nav2 a {
+    display: block;
+    padding: 12px 20px;
+    color: var(--verde-escuro);
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 360ms ease, color 360ms ease;
+}
+
+.nav2 a:hover {
+    color: #fff;
+    background: var(--verde-escuro);
+}
+
+.nav2 a:focus-visible {
+    outline: 3px solid var(--foco);
+    outline-offset: 2px;
+}
+
+@media (min-width: 720px) {
+    .nav2 ul {
+        gap: 16px;
+        padding-inline: 32px;
+    }
+
+    .nav2 a {
+        padding: 16px 32px;
+    }
+}
