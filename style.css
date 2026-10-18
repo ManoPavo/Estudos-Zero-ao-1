@@ -86,3 +86,42 @@ body.corpo::before {
         padding: 16px 32px;
     }
 }
+
+.card {
+    margin: 16px 30px;
+    width: 200px;
+    height: 300px;
+    background: var(--verde-claro);
+    border: 1px solid var(--verde-escuro);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+    font-size: 1.2rem;
+    color: var(--texto);
+    cursor: pointer;
+    transition: transform 360ms ease, box-shadow 360ms ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.card-item {
+    list-style: none;
+    margin: 16px;
+}
+.card h2 {
+    margin: 0 0 8px 0;
+    font-size: 1.5rem;
+}
+.card p {
+    margin: 0 0 8px 0;
+    font-size: 1rem;
+}
+.card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
