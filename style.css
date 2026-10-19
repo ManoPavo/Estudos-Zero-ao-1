@@ -38,6 +38,32 @@ body.corpo::before {
     align-items: center;
     justify-content: center;
 }
+#bungas {
+    text-align: center;
+    padding: 8px 16px;
+}
+
+#bungas button {
+    padding: 12px 20px;
+    color: #fff;
+    font: inherit;
+    font-weight: 600;
+    background: var(--verde-escuro);
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 360ms ease, transform 360ms ease;
+}
+
+#bungas button:hover {
+    background: #3d765d;
+    transform: translateY(-2px);
+}
+
+#bungas button:focus-visible {
+    outline: 3px solid var(--foco);
+    outline-offset: 2px;
+}
 
 .logo {
     display: block;
