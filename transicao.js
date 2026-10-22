@@ -11,7 +11,10 @@ function navegar(url) {
 document.addEventListener("click", (evento) => {
   // Encontra o link clicado (mesmo que o clique tenha sido num elemento dentro dele)
   const link = evento.target.closest("a[href]");
-  
+
+  if (!link) {
+    return;
+  }
 
   // Cancela a navegação imediata e usa a transição
   evento.preventDefault();

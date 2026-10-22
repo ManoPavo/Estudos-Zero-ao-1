@@ -1,13 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>Quiz dos Pavões</title>
 </head>
-<body>
-    <img class="Back" src="pavudos.png" alt="Marca do site" class="logo">
-<script src="transicao.js"></script>
+<body class="corpo">
+    <header class="nav">
+        <img src="pavao.png" draggable="false" alt="Marca do site" class="logo">
+        <h1>Quiz dos Pavões</h1>
+    </header>
+    <nav class="nav2" aria-label="Navegação principal">
+        <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="Sobre.html">Sobre</a></li>
+            <li><a href="Contato.html">Contato</a></li>
+        </ul>
+    </nav>
+
+    <main class="quiz-container">
+        <section class="quiz-card" aria-labelledby="quiz-title">
+            <p class="quiz-intro">Teste seus conhecimentos</p>
+            <h2 id="quiz-title">O que você sabe sobre pavões?</h2>
+            <div id="quiz" aria-live="polite">
+                <p>Carregando quiz...</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="transicao.js"></script>
+    <script src="quiz.js"></script>
 </body>
 </html>
