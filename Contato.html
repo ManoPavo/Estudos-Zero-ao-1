@@ -1,13 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Entre em contato e envie sua mensagem sobre o site dos pavões.">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>Contato</title>
 </head>
-<body>
-    <img class="Back" src="pavudos.png" alt="Marca do site" class="logo">
-<script src="transicao.js"></script>
+<body class="corpo">
+    <header class="nav">
+        <img src="pavao.png" draggable="false" alt="Ilustração de um pavão" class="logo">
+        <h1>Contato</h1>
+    </header>
+    <nav class="nav2" aria-label="Navegação principal">
+        <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="Home.html">Quiz</a></li>
+            <li><a href="Sobre.html">Sobre</a></li>
+            <li><a href="Contato.html" aria-current="page">Contato</a></li>
+        </ul>
+    </nav>
+
+    <main class="page-container">
+        <section class="page-card contact-card" aria-labelledby="contact-title">
+            <p class="page-eyebrow">Sua opinião é bem-vinda</p>
+            <h2 id="contact-title">Mande uma mensagem</h2>
+            <p>Tem uma sugestão, encontrou algo para corrigir ou quer compartilhar uma curiosidade? Escreva para a gente.</p>
+
+            <p class="form-notice">
+                Este site ainda não tem um serviço de envio conectado. O formulário é demonstrativo e não envia nem armazena mensagens.
+            </p>
+
+            <form id="contact-form" class="contact-form">
+                <div class="form-field">
+                    <label for="nome">Seu nome</label>
+                    <input id="nome" name="nome" type="text" autocomplete="name" required>
+                </div>
+                <div class="form-field">
+                    <label for="email">Seu e-mail</label>
+                    <input id="email" name="email" type="email" autocomplete="email" required>
+                </div>
+                <div class="form-field">
+                    <label for="mensagem">Mensagem</label>
+                    <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
+                </div>
+                <button class="page-button" type="submit">Enviar mensagem</button>
+                <p id="contact-status" class="form-status" role="status" aria-live="polite"></p>
+            </form>
+        </section>
+    </main>
+
+    <script src="transicao.js"></script>
+    <script src="contato.js"></script>
 </body>
 </html>

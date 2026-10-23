@@ -108,6 +108,156 @@ body.corpo::before {
     outline-offset: 2px;
 }
 
+.nav2 a[aria-current="page"] {
+    color: #fff;
+    background: #3d765d;
+}
+
+.page-container {
+    display: flex;
+    justify-content: center;
+    padding: 40px 16px;
+}
+
+.page-card {
+    width: min(100%, 860px);
+    padding: 36px;
+    background: rgba(234, 242, 236, 0.96);
+    border: 1px solid #c8dbce;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(32, 41, 35, 0.1);
+}
+
+.page-card h2 {
+    margin: 0 0 16px;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+}
+
+.page-card p {
+    line-height: 1.65;
+}
+
+.page-eyebrow {
+    margin: 0 0 8px;
+    color: #3d765d;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.fact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin: 28px 0;
+}
+
+.fact-item {
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #c8dbce;
+    border-radius: 8px;
+}
+
+.fact-item h3,
+.project-note h3 {
+    margin: 0 0 8px;
+    color: #2f624b;
+}
+
+.fact-item p,
+.project-note p {
+    margin: 0;
+}
+
+.project-note {
+    padding: 20px;
+    background: #f4faf5;
+    border-left: 4px solid #3d765d;
+    border-radius: 4px;
+}
+
+.page-link {
+    display: inline-block;
+    margin-top: 16px;
+    color: #2f624b;
+    font-weight: 700;
+    text-underline-offset: 3px;
+}
+
+.contact-card {
+    max-width: 680px;
+}
+
+.form-notice {
+    margin: 24px 0;
+    padding: 14px 16px;
+    color: #39483e;
+    background: #f4faf5;
+    border-left: 4px solid #3d765d;
+    border-radius: 4px;
+}
+
+.contact-form {
+    display: grid;
+    gap: 18px;
+}
+
+.form-field {
+    display: grid;
+    gap: 8px;
+}
+
+.form-field label {
+    font-weight: 700;
+}
+
+.form-field input,
+.form-field textarea {
+    width: 100%;
+    padding: 12px;
+    color: var(--texto);
+    font: inherit;
+    background: #fff;
+    border: 1px solid #aebfb2;
+    border-radius: 6px;
+}
+
+.form-field textarea {
+    resize: vertical;
+}
+
+.form-field input:focus-visible,
+.form-field textarea:focus-visible,
+.page-button:focus-visible,
+.page-link:focus-visible {
+    outline: 3px solid var(--foco);
+    outline-offset: 2px;
+}
+
+.page-button {
+    justify-self: start;
+    padding: 12px 20px;
+    color: #fff;
+    font: inherit;
+    font-weight: 700;
+    background: #3d765d;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.page-button:hover {
+    background: #2f624b;
+}
+
+.form-status {
+    min-height: 1.5em;
+    margin: 0;
+    color: #a1362b;
+}
+
 @media (min-width: 720px) {
     .nav2 ul {
         gap: 16px;
@@ -378,6 +528,18 @@ body.corpo::before {
 
     .nav h1 {
         font-size: 1.35rem;
+    }
+
+    .page-container {
+        padding: 24px 12px;
+    }
+
+    .page-card {
+        padding: 24px 18px;
+    }
+
+    .fact-grid {
+        grid-template-columns: 1fr;
     }
 }
 
