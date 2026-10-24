@@ -1,131 +1,93 @@
 const areaDasCartas = document.querySelector('.card-container');
 
-const moldeDaCarta = {
-    nome: '',
-    descricao: '',
-    imagem: '',
+const pavoes = [
+    { nome: 'Pavudos', descricao: 'O pavão grandão' },
+    { nome: 'Pavão Azul', descricao: 'Todo elegante' },
+    { nome: 'Pavão Verde', descricao: 'Cheio de estilo' },
+    { nome: 'Pavão Vermelho', descricao: 'Raridade total' }
+];
 
-    criar: function() {
-        areaDasCartas.innerHTML += `
-            <div class="card-item">
-                <div class="card-content">
-                    <h2>${this.nome}</h2>
-                    <p>${this.descricao}</p>
-                    <img src="${this.imagem}" draggable="false" alt="${this.nome}">
-                </div>
-            </div>
-        `;
-    }
-};
+areaDasCartas.innerHTML = pavoes.map(({ nome, descricao }) => `
+    <div class="card-item">
+        <div class="card-content">
+            <h2>${nome}</h2>
+            <p>${descricao}</p>
+            <img src="pavao.png" draggable="false" alt="${nome}">
+        </div>
+    </div>
+`).join('');
 
-const pavudoGrandao = Object.create(moldeDaCarta);
-pavudoGrandao.nome = 'Pavudos';
-pavudoGrandao.descricao = 'O pavão grandão';
-pavudoGrandao.imagem = 'pavao.png';
-pavudoGrandao.criar();
+const cartas = [...document.querySelectorAll('.card-item')];
+const movimentoReduzido = matchMedia('(prefers-reduced-motion: reduce)');
+const GRAVIDADE = 2200;
+const QUIQUE = 0.75;
+const IMPULSO_MINIMO = 900;
+const aleatorio = (max) => (Math.random() - 0.5) * max;
+let corpos = [];
+let tempoAnterior = 0;
 
-const pavudoAzul = Object.create(moldeDaCarta);
-pavudoAzul.nome = 'Pavão Azul';
-pavudoAzul.descricao = 'Todo elegante';
-pavudoAzul.imagem = 'pavao.png';
-pavudoAzul.criar();
+document.querySelector('#bungas button').addEventListener('click', () => {
+    const jaAnimando = corpos.length > 0;
 
-const pavudoVerde = Object.create(moldeDaCarta);
-pavudoVerde.nome = 'Pavão Verde';
-pavudoVerde.descricao = 'Cheio de estilo';
-pavudoVerde.imagem = 'pavao.png';
-pavudoVerde.criar();
-
-const pavudoVermelho = Object.create(moldeDaCarta);
-pavudoVermelho.nome = 'Pavão Vermelho';
-pavudoVermelho.descricao = 'Raridade total';
-pavudoVermelho.imagem = 'pavao.png';
-pavudoVermelho.criar();
-
-const botaoBungas = document.querySelector('#bungas button');
-const animacoesDasCartas = new WeakMap();
-
-function derrubarEQuicar(carta, atraso) {
-    const animacaoAnterior = animacoesDasCartas.get(carta);
-
-    if (animacaoAnterior) {
-        cancelAnimationFrame(animacaoAnterior.quadro);
-        clearTimeout(animacaoAnterior.temporizador);
-    }
-
-    const animacao = { quadro: null, temporizador: null };
-    animacoesDasCartas.set(carta, animacao);
-
-    animacao.temporizador = setTimeout(() => {
+    corpos = cartas.map((carta, indice) => {
         carta.style.transition = 'none';
         carta.style.transform = '';
-
-        let posicao = -window.innerHeight - carta.getBoundingClientRect().bottom;
-        let velocidade = 0;
-        let tempoAnterior = null;
-        const gravidade = 2200;
-        const forcaDoQuique = 0.45;
-
-        function atualizar(tempoAtual) {
-            if (tempoAnterior === null) {
-                tempoAnterior = tempoAtual;
-            }
-
-            const tempoPassado = Math.min((tempoAtual - tempoAnterior) / 1000, 0.032);
-            tempoAnterior = tempoAtual;
-
-            velocidade += gravidade * tempoPassado;
-            posicao += velocidade * tempoPassado;
-
-            if (posicao >= 0) {
-                posicao = 0;
-                velocidade *= -forcaDoQuique;
-
-                if (Math.abs(velocidade) < 70) {
-                    carta.style.transform = '';
-                    carta.style.transition = '';
-                    animacoesDasCartas.delete(carta);
-                    return;
-                }
-            }
-
-            carta.style.transform = `translateY(${posicao}px)`;
-            animacao.quadro = requestAnimationFrame(atualizar);
-        }
-
-        animacao.quadro = requestAnimationFrame(atualizar);
-    }, atraso);
-}
-
-botaoBungas.addEventListener('click', () => {
-    document.querySelectorAll('.card-item').forEach((carta, indice) => {
-        derrubarEQuicar(carta, indice * 120);
+        const caixa = carta.getBoundingClientRect();
+        return {
+            carta,
+            x: 0,
+            y: -caixa.bottom - indice * 120,
+            vx: aleatorio(1600),
+            vy: 0,
+            minX: -caixa.left,
+            maxX: innerWidth - caixa.right,
+            maxY: Math.max(0, innerHeight - caixa.bottom)
+        };
     });
+
+    if (!jaAnimando) {
+        tempoAnterior = performance.now();
+        requestAnimationFrame(atualizarFisica);
+    }
 });
 
-const preferenciaMovimentoReduzido = window.matchMedia('(prefers-reduced-motion: reduce)');
-let intervaloDosPulos;
-let ultimaCartaQuePulou = -1;
+function atualizarFisica(agora) {
+    const dt = Math.min((agora - tempoAnterior) / 1000, 0.032);
+    tempoAnterior = agora;
 
-function pularCartaAleatoria() {
-    if (document.hidden || preferenciaMovimentoReduzido.matches) {
+    for (const c of corpos) {
+        c.vy += GRAVIDADE * dt;
+        c.x += c.vx * dt;
+        c.y += c.vy * dt;
+
+        if (c.x < c.minX || c.x > c.maxX) {
+            c.x = Math.min(Math.max(c.x, c.minX), c.maxX);
+            c.vx *= -QUIQUE;
+        }
+
+        if (c.y > c.maxY) {
+            c.y = c.maxY;
+            c.vy *= -QUIQUE;
+
+            // No rodapé o card ganha um novo impulso para nunca parar de pular
+            if (Math.abs(c.vy) < IMPULSO_MINIMO) {
+                c.vy = -IMPULSO_MINIMO - Math.random() * 600;
+                c.vx = aleatorio(1200);
+            }
+        }
+
+        c.carta.style.transform = `translate(${c.x}px, ${c.y}px) rotate(${c.vx / 40}deg)`;
+    }
+
+    requestAnimationFrame(atualizarFisica);
+}
+
+setInterval(() => {
+    if (document.hidden || movimentoReduzido.matches) {
         return;
     }
 
-    const cartas = [...document.querySelectorAll('.card-item')];
-
-    if (cartas.length === 0) {
-        return;
-    }
-
-    let indice = Math.floor(Math.random() * cartas.length);
-
-    if (cartas.length > 1 && indice === ultimaCartaQuePulou) {
-        indice = (indice + 1 + Math.floor(Math.random() * (cartas.length - 1))) % cartas.length;
-    }
-
-    ultimaCartaQuePulou = indice;
-    cartas[indice].animate(
+    cartas[Math.floor(Math.random() * cartas.length)].animate(
         [
             { translate: '0 0' },
             { translate: '0 -38px', offset: 0.3 },
@@ -135,15 +97,4 @@ function pularCartaAleatoria() {
         ],
         { duration: 700, easing: 'cubic-bezier(0.2, 0.75, 0.3, 1)' }
     );
-}
-
-function atualizarIntervaloDosPulos() {
-    clearInterval(intervaloDosPulos);
-
-    if (!preferenciaMovimentoReduzido.matches) {
-        intervaloDosPulos = setInterval(pularCartaAleatoria, 2000);
-    }
-}
-
-preferenciaMovimentoReduzido.addEventListener('change', atualizarIntervaloDosPulos);
-atualizarIntervaloDosPulos();
+}, 2000);
