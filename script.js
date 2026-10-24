@@ -102,3 +102,48 @@ botaoBungas.addEventListener('click', () => {
         derrubarEQuicar(carta, indice * 120);
     });
 });
+
+const preferenciaMovimentoReduzido = window.matchMedia('(prefers-reduced-motion: reduce)');
+let intervaloDosPulos;
+let ultimaCartaQuePulou = -1;
+
+function pularCartaAleatoria() {
+    if (document.hidden || preferenciaMovimentoReduzido.matches) {
+        return;
+    }
+
+    const cartas = [...document.querySelectorAll('.card-item')];
+
+    if (cartas.length === 0) {
+        return;
+    }
+
+    let indice = Math.floor(Math.random() * cartas.length);
+
+    if (cartas.length > 1 && indice === ultimaCartaQuePulou) {
+        indice = (indice + 1 + Math.floor(Math.random() * (cartas.length - 1))) % cartas.length;
+    }
+
+    ultimaCartaQuePulou = indice;
+    cartas[indice].animate(
+        [
+            { translate: '0 0' },
+            { translate: '0 -38px', offset: 0.3 },
+            { translate: '0 0', offset: 0.7 },
+            { translate: '0 -12px', offset: 0.86 },
+            { translate: '0 0' }
+        ],
+        { duration: 700, easing: 'cubic-bezier(0.2, 0.75, 0.3, 1)' }
+    );
+}
+
+function atualizarIntervaloDosPulos() {
+    clearInterval(intervaloDosPulos);
+
+    if (!preferenciaMovimentoReduzido.matches) {
+        intervaloDosPulos = setInterval(pularCartaAleatoria, 2000);
+    }
+}
+
+preferenciaMovimentoReduzido.addEventListener('change', atualizarIntervaloDosPulos);
+atualizarIntervaloDosPulos();
